@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyunwoo Yu — Researcher</title>
+    <meta name="description" content="Academic CV of Hyunwoo Yu — Efficient Deep Learning, Vision Transformers, Generative Models">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-card: #161618;
+            --bg-card-hover: #1c1c1f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #9a9590;
+            --text-muted: #5a5652;
+            --accent: #c9a96e;
+            --accent-dim: #a08450;
+            --accent-glow: rgba(201, 169, 110, 0.08);
+            --accent-blue: #5b8fb9;
+            --border: #222225;
+            --border-light: #2a2a2e;
+            --radius: 6px;
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* ── Noise overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Navigation ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0 2rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(10, 10, 11, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+
+        .nav-name {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.25s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.4s;
+        }
+
+        .hero-name span {
+            color: var(--accent);
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.6s;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.8s;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.3rem;
+        }
+
+        .hero-contact {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 1s;
+        }
+
+        .contact-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+
+        .contact-chip:hover {
+            border-color: var(--accent-dim);
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .contact-chip svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ── Sections ── */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-dim);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 1rem;
+        }
+
+        /* ── Research Interests ── */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .interest-card {
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interest-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: var(--accent);
+            transition: height 0.3s ease;
+        }
+
+        .interest-card:hover {
+            border-color: var(--border-light);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .interest-card:hover::before {
+            height: 100%;
+        }
+
+        .interest-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .interest-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ── Education ── */
+        .edu-item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 2rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .edu-item:last-child {
+            border-bottom: none;
+        }
+
+        .edu-period {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            padding-top: 0.2rem;
+        }
+
+        .edu-school {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .edu-detail {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .edu-gpa {
+            display: inline-block;
+            margin-top: 0.4rem;
+            padding: 0.2rem 0.6rem;
+            background: var(--accent-glow);
+            border: 1px solid rgba(201, 169, 110, 0.15);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--accent);
+        }
+
+        /* ── Publications ── */
+        .pub-category {
+            margin-bottom: 2.5rem;
+        }
+
+        .pub-category-title {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pub-item {
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--radius);
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .pub-item:hover {
+            background: var(--bg-card);
+        }
+
+        .pub-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 0.35rem;
+            color: var(--text-primary);
+        }
+
+        .pub-venue {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .pub-venue strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .pub-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+            margin-left: 0.3rem;
+            vertical-align: middle;
+        }
+
+        .badge-top { background: rgba(201, 169, 110, 0.15); color: var(--accent); }
+        .badge-journal { background: rgba(91, 143, 185, 0.15); color: var(--accent-blue); }
+        .badge-review { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+
+        /* ── Projects ── */
+        .project-item {
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            background: var(--bg-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover {
+            border-color: var(--border-light);
+            transform: translateX(4px);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-name {
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .project-sponsor {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-dim);
+            white-space: nowrap;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            border-radius: 3px;
+        }
+
+        .project-period {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ── Awards ── */
+        .awards-list {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .award-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            border-radius: var(--radius);
+            transition: background 0.25s;
+        }
+
+        .award-item:hover {
+            background: var(--bg-card);
+        }
+
+        .award-title {
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .award-org {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 0.15rem;
+        }
+
+        .award-year {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            align-self: center;
+        }
+
+        /* ── Academic Service ── */
+        .service-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .service-tag {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            transition: all 0.25s;
+        }
+
+        .service-tag:hover {
+            border-color: var(--accent-dim);
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .service-tag .service-venue {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ── Skills ── */
+        .skills-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .skill-pill {
+            padding: 0.45rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-dim);
+            text-decoration: none;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Scroll indicator ── */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 1.2s;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent-dim), transparent);
+            animation: scrollPulse 2s ease infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-stats { gap: 2rem; flex-wrap: wrap; }
+            .edu-item { grid-template-columns: 1fr; gap: 0.5rem; }
+            .section { padding: 4rem 1.5rem; }
+            .project-header { flex-direction: column; gap: 0.3rem; }
+            .award-item { grid-template-columns: 1fr; gap: 0.3rem; }
+        }
+
+        /* ── Mobile nav toggle ── */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="nav">
+    <div class="nav-name">H.Yu</div>
+    <ul class="nav-links">
+        <li><a href="#research">Research</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#awards">Awards</a></li>
+    </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-label">Ph.D. Candidate · Sogang University</div>
+        <h1 class="hero-name">Hyunwoo<br><span>Yu</span></h1>
+        <p class="hero-desc">
+            Designing efficient deep learning architectures — from lightweight transformers
+            and sparse attention to vision-language compression. Building models that are
+            not just accurate, but fast enough for the real world.
+        </p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">226+</div>
+                <div class="stat-label">Citations</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Publications</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Top Venues</div>
+            </div>
+        </div>
+        <div class="hero-contact">
+            <a class="contact-chip" href="mailto:hyunwoo3615@gmail.com">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                hyunwoo3615@gmail.com
+            </a>
+            <a class="contact-chip" href="tel:+821050913870">
+                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                +82 10-5091-3870
+            </a>
+            <a class="contact-chip" href="https://github.com/hyunwoo137" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- Research Interests -->
+<section class="section reveal" id="research">
+    <div class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">Research Interests</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="interests-grid">
+        <div class="interest-card">
+            <div class="interest-title">Lightweight Architecture</div>
+            <div class="interest-desc">Transformer-based efficient architectures for vision tasks — designing models that maximize accuracy under strict compute budgets.</div>
+        </div>
+        <div class="interest-card">
+            <div class="interest-title">Efficient Inference</div>
+            <div class="interest-desc">Sparse attention, token pruning, parameter-efficient tuning, and weight pruning for accelerating deep learning inference.</div>
+        </div>
+        <div class="interest-card">
+            <div class="interest-title">Generative Models</div>
+            <div class="interest-desc">Video diffusion models and diffusion-based multimodal language models — generating and understanding visual content efficiently.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Education -->
+<section class="section reveal" id="education">
+    <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Education</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="edu-item">
+        <div class="edu-period">2021 — Present</div>
+        <div>
+            <div class="edu-school">Sogang University</div>
+            <div class="edu-detail">MS-Ph.D. Integrated Course, Electronic Engineering</div>
+            <span class="edu-gpa">GPA 3.90 / 4.3</span>
+        </div>
+    </div>
+    <div class="edu-item">
+        <div class="edu-period">2024 — 2025</div>
+        <div>
+            <div class="edu-school">Carnegie Mellon University</div>
+            <div class="edu-detail">Short Term Scholarship, Software and Societal Systems</div>
+        </div>
+    </div>
+    <div class="edu-item">
+        <div class="edu-period">2014 — 2021</div>
+        <div>
+            <div class="edu-school">Kangwon National University</div>
+            <div class="edu-detail">Bachelor of Physics</div>
+            <span class="edu-gpa">GPA 3.56 / 4.5</span>
+        </div>
+    </div>
+</section>
+
+<!-- Publications -->
+<section class="section reveal" id="publications">
+    <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Publications</h2>
+        <div class="section-line"></div>
+    </div>
+
+    <div class="pub-category">
+        <div class="pub-category-title">Under Review</div>
+        <div class="pub-item">
+            <div class="pub-title">Towards a Low-Delta Oracle Policy for Tighter Upper Bound in Sparse Attention</div>
+            <div class="pub-venue"><span class="pub-badge badge-review">Under Review</span></div>
+        </div>
+    </div>
+
+    <div class="pub-category">
+        <div class="pub-category-title">Top-tier Conference</div>
+        <div class="pub-item">
+            <div class="pub-title">BlueToken: Decoupling Spatial and Semantic Pruning for VLM Token Compression</div>
+            <div class="pub-venue"><strong>ECCV 2026</strong> — European Conference on Computer Vision <span class="pub-badge badge-top">ECCV</span></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">Training-Free Attention Weight Decomposition for Vision Model Compression</div>
+            <div class="pub-venue"><strong>ICML 2026</strong> — International Conference on Machine Learning <span class="pub-badge badge-top">ICML</span></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">WIMFRIS: WIndow Mamba Fusion and Parameter Efficient Tuning for Referring Image Segmentation</div>
+            <div class="pub-venue"><strong>ICLR 2026</strong> — International Conference on Learning Representations <span class="pub-badge badge-top">ICLR</span></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">EDAFormer: Embedding-Free Transformer with Inference Spatial Reduction for Efficient Semantic Segmentation</div>
+            <div class="pub-venue"><strong>ECCV 2024</strong> — European Conference on Computer Vision <span class="pub-badge badge-top">ECCV</span></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">MetaSeg: MetaFormer-Based Global Contexts-Aware Network for Efficient Semantic Segmentation</div>
+            <div class="pub-venue"><strong>WACV 2024</strong> — IEEE/CVF Winter Conference on Applications of Computer Vision <span class="pub-badge badge-top">WACV</span></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">FeedFormer: Revisiting Transformer Decoder for Efficient Semantic Segmentation</div>
+            <div class="pub-venue"><strong>AAAI 2023</strong> — Association for the Advancement of Artificial Intelligence <span class="pub-badge badge-top">AAAI</span></div>
+        </div>
+    </div>
+
+    <div class="pub-category">
+        <div class="pub-category-title">Conference</div>
+        <div class="pub-item">
+            <div class="pub-title">Optimization of Video Repetitive Action Counting for Efficient Inference on Edge Devices</div>
+            <div class="pub-venue"><strong>ITC-CSCC 2023</strong></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">Deep Learning-based Real-time Segmentation for Edge Computing Devices</div>
+            <div class="pub-venue"><strong>IEEE AICAS 2022</strong></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">Vision Transformer-based Retina Vessel Segmentation With Deep Adaptive Gamma Correction</div>
+            <div class="pub-venue"><strong>IEEE ICASSP 2022</strong></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">A study on the improvement of segmentation performance by ViT-based skip architecture of U-Net</div>
+            <div class="pub-venue"><strong>IEIE 2021</strong> <span class="pub-badge badge-top">Best Paper</span></div>
+        </div>
+    </div>
+
+    <div class="pub-category">
+        <div class="pub-category-title">Journal</div>
+        <div class="pub-item">
+            <div class="pub-title">Deep Learning-based Real-Time Driver's Hands-On Detection: A Lightweight Time Series Approach Using CAN Data</div>
+            <div class="pub-venue"><strong>IEEE Access</strong>, 2026 <span class="pub-badge badge-journal">Journal</span></div>
+        </div>
+        <div class="pub-item">
+            <div class="pub-title">Cross-aware Early Fusion with Stage-divided Vision and Language Transformer Encoders for Referring Image Segmentation</div>
+            <div class="pub-venue"><strong>IEEE TMM</strong>, 2023 — Transactions on Multimedia <span class="pub-badge badge-journal">Journal</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section class="section reveal" id="projects">
+    <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Projects</h2>
+        <div class="section-line"></div>
+    </div>
+
+    <div class="project-item">
+        <div class="project-header">
+            <div class="project-name">Spiking Neural Network Architectures and Applications</div>
+            <span class="project-sponsor">ETRI</span>
+        </div>
+        <div class="project-period">2025.05 — Present</div>
+        <div class="project-desc">Design transformer-based spiking neural network architecture for vision tasks.</div>
+    </div>
+
+    <div class="project-item">
+        <div class="project-header">
+            <div class="project-name">Accelerating Deep Learning for Memory Efficiency</div>
+            <span class="project-sponsor">Samsung</span>
+        </div>
+        <div class="project-period">2021.09 — Present</div>
+        <div class="project-desc">Research efficient architectures and methods for deep learning network acceleration.</div>
+    </div>
+
+    <div class="project-item">
+        <div class="project-header">
+            <div class="project-name">Real-time Hands-on-off Detection via Deep Learning</div>
+            <span class="project-sponsor">Hyundai Motor</span>
+        </div>
+        <div class="project-period">2023.07 — 2024.07</div>
+        <div class="project-desc">Classify hands-on/off state using CAN data (steering torque, motor torque, etc.).</div>
+    </div>
+
+    <div class="project-item">
+        <div class="project-header">
+            <div class="project-name">Image Enhancement using Guidance Filtering</div>
+            <span class="project-sponsor">Quram</span>
+        </div>
+        <div class="project-period">2023.01 — 2023.04</div>
+        <div class="project-desc">Enhance image detail using guided filtering methods.</div>
+    </div>
+
+    <div class="project-item">
+        <div class="project-header">
+            <div class="project-name">Efficient Video Repetition Counting</div>
+            <span class="project-sponsor">KITECH</span>
+        </div>
+        <div class="project-period">2022.10 — 2022.12</div>
+        <div class="project-desc">Optimize frame stride of video to improve inference speed for repetition counting.</div>
+    </div>
+
+    <div class="project-item">
+        <div class="project-header">
+            <div class="project-name">Logo Segmentation for OLED Burn-in Prevention</div>
+            <span class="project-sponsor">LX Semicon</span>
+        </div>
+        <div class="project-period">2021.09 — 2022.09</div>
+        <div class="project-desc">Segment logo regions in broadcast video using deep learning to prevent OLED burn-in.</div>
+    </div>
+</section>
+
+<!-- Awards -->
+<section class="section reveal" id="awards">
+    <div class="section-header">
+        <span class="section-number">05</span>
+        <h2 class="section-title">Awards</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="awards-list">
+        <div class="award-item">
+            <div>
+                <div class="award-title">Best Paper Award</div>
+                <div class="award-org">Department of Electronic Engineering, Sogang University</div>
+            </div>
+            <div class="award-year">2024</div>
+        </div>
+        <div class="award-item">
+            <div>
+                <div class="award-title">Encouragement Award</div>
+                <div class="award-org">Samsung Display</div>
+            </div>
+            <div class="award-year">2024</div>
+        </div>
+        <div class="award-item">
+            <div>
+                <div class="award-title">Excellent Paper Award</div>
+                <div class="award-org">Samsung Electronics</div>
+            </div>
+            <div class="award-year">2024</div>
+        </div>
+        <div class="award-item">
+            <div>
+                <div class="award-title">Best Paper Award</div>
+                <div class="award-org">Summer Conference, The Institute of Electronics and Information Engineers</div>
+            </div>
+            <div class="award-year">2021</div>
+        </div>
+    </div>
+</section>
+
+<!-- Academic Service -->
+<section class="section reveal" id="service">
+    <div class="section-header">
+        <span class="section-number">06</span>
+        <h2 class="section-title">Academic Service</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="service-grid">
+        <div class="service-tag">Reviewer · <span class="service-venue">ECCV 2026</span></div>
+        <div class="service-tag">Reviewer · <span class="service-venue">ICML 2026</span></div>
+        <div class="service-tag">Reviewer · <span class="service-venue">CVPR 2026</span></div>
+        <div class="service-tag">Reviewer · <span class="service-venue">WACV 2026</span></div>
+        <div class="service-tag">Reviewer · <span class="service-venue">AAAI 2026</span></div>
+        <div class="service-tag">Reviewer · <span class="service-venue">ICCV 2025</span></div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section class="section reveal" id="skills">
+    <div class="section-header">
+        <span class="section-number">07</span>
+        <h2 class="section-title">Skills</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="skills-row">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">C</span>
+        <span class="skill-pill">PyTorch</span>
+        <span class="skill-pill">Image Processing</span>
+        <span class="skill-pill">Video Processing</span>
+        <span class="skill-pill">NLP</span>
+        <span class="skill-pill">Time Series</span>
+        <span class="skill-pill">Signal Processing</span>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2026 Hyunwoo Yu · Built with intention</p>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
